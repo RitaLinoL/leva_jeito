@@ -19,4 +19,4 @@ saída deve ser feita em tela.
 
 * ver modificações em arquivos, apresentando o caminho do arquivo e o que aconteceu com ele, por meio da comparação dos hashs*
 
-**- jogar tudo em pasta oculta; -usar ED árvore (esquema do diretório, não é bin), hash... **
+**- jogar tudo em pasta oculta; -usar ED árvore (esquema do diretório, não é bin), hash..., com relatório, até dia 01**
