@@ -34,31 +34,18 @@ def init(method, directory,out, key):
 					buf = None
 					buf = node.read()
 					hasher.update(buf)
-
 				guarda_tree.update({i:hasher.hexdigest()})
-				guarda = open(path_guarda +"guarda.txt", "a")		
-				guarda.write(i + "\t"+str(hasher.hexdigest())+"\n")
-				guarda.close()
 				continue
 			if (os.path.isdir(directory+i)):
-				guarda = open(path_guarda +"guarda.txt", "a")		
-				guarda.write(i + "\tdir\n")
-				guarda.close()
 				guarda_tree.update({i:create_hash_dir(i, directory, method, key, directory+".guarda/")})
-		for i in guarda_tree.keys():
-			print(i)
-			if type(guarda_tree[i]) == type(OOBTree()):
-				for j in guarda_tree[i].keys():
-					print(j)
-
+		
+		tree_to_file("guarda", directory, directory+".guarda/", guarda_tree)
 
 	except OSError as error:
 		print(error)
 
 
 def create_hash_dir(name, directory, method, key, root_guarda):
-	file = open(root_guarda+name+".txt", "w+")
-	file.close()
 	dir_tree = OOBTree()
 
 	path  = directory+name+"/"
@@ -77,17 +64,31 @@ def create_hash_dir(name, directory, method, key, root_guarda):
 				buf = node.read()
 				hasher.update(buf)
 			dir_tree.update({i:hasher.hexdigest()})
-			file = open(root_guarda +name+".txt", "a")		
-			file.write(i + "\t"+str(hasher.hexdigest())+"\n")
-			file.close()
 			continue
 
 		if (os.path.isdir(path+i)):
-			file = open(root_guarda +name+".txt", "a")		
-			file.write(i + "\tdir \n")
-			file.close()
 			dir_tree.update({i:create_hash_dir(i, path, method, key, root_guarda)})
 	return dir_tree
+
+
+
+def tree_to_file(name,directory, root_guarda, tree):
+	file = open(root_guarda+name+".txt", "w+")
+	for k in tree.keys():
+		if os.path.isfile(directory+k):
+			file.write(k+"\t"+tree[k]+"\n")
+		if type(tree[k]) == type(OOBTree()):
+			file.write(k+"\tdir\n")
+			tree_to_file(k, directory+k+"/", root_guarda, tree[k])
+	file.close()
+
+def file_to_tree(name, directory, root_guarda, file):
+	file = open(,"r")
+
+
+
+	return tree
+
 
 	
 def track(method, directory,out, key):

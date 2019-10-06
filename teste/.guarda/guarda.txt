@@ -1,3 +1,3 @@
-teste1.txt	2dfa93c9ed78e9ab93cfffd9366ecec6191735e8
-teste2.txt	f055ff6400fe1d65d4b534c2bb83912db2bb9271
+teste1.txt	b444ac06613fc8d63795be9ad0beaf55011936ac
+teste2.txt	51a7b6f2d91f6a87822dc04560f2972bc14fc97e
 testedir	dir
