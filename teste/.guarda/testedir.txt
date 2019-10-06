@@ -1,0 +1,2 @@
+bu.txt	2eb122694876b0d29e904c860bc0ed3467e9d8d5
+outrodir	dir 
