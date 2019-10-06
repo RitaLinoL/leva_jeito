@@ -11,9 +11,10 @@ def init(method, directory,out, key):
 
 		#se já existir programa guarda : apaga
 		if os.path.isdir(path_guarda):
-			remove(str(directory) +"/.guarda/")
+			shutil.rmtree(path_guarda)
 
-		os.makedirs(str(directory) +"/.guarda")
+
+		os.makedirs(path_guarda)
 
 		guarda = open(path_guarda +"guarda.txt", "w+")	
 		guarda.close()
@@ -21,7 +22,7 @@ def init(method, directory,out, key):
 		guarda_tree = OOBTree()
 
 		for i in os.listdir(directory):
-			if i == ".guarda":
+			if i == ".guarda" or i == ".tmp":
 				continue
 
 			if method == '--hash':
@@ -68,8 +69,6 @@ def create_hash_dir(name, directory, method, key, root_guarda):
 
 	return dir_tree
 
-
-
 def tree_to_file(name,directory, root_guarda, tree):
 	file = open(root_guarda+name+".txt", "w+")
 	file.close()
@@ -102,29 +101,68 @@ def file_to_tree(root_guarda, file):
 	return tree	
 
 
-	
+def tracking_out(directory, out, tree_now, tree_before):
+	for k in tree_now.keys():
+		if(tree_before.has_key(k)):
+			if (type(tree_now[k]) == type(OOBTree())):
+				tracking_out(directory+k+"/",out,  tree_now[k], tree_before[k] )
+			elif(tree_now[k] != tree_before[k]):
+				out.write("[A] "+ directory+k)
+		else:
+			out.write("[N] "+ directory+k)
+
+	for k in tree_before.keys():
+		if not(tree_now.has_key(k)):
+			out.write("[R] "+ directory+k)
+
+
+def tracking(directory, tree_now, tree_before):
+	for k in tree_now.keys():
+		if(tree_before.has_key(k)):
+			if (type(tree_now[k]) == type(OOBTree())):
+				tracking(directory+k+"/", tree_now[k], tree_before[k] )
+			elif(tree_now[k] != tree_before[k]):
+				print("[A] ", directory+k)
+		else:
+			print("[N] ", directory+k)
+
+	for k in tree_before.keys():
+		if not(tree_now.has_key(k)):
+			print("[R] ", directory+k)
+			
+
+			
 def track(method, directory,out, key):
-
-	tree = file_to_tree(directory+".guarda/", "guarda.txt")
-	for k in tree.keys():
-		if type(tree[k]) == type(OOBTree()):
-			print("-->")
-			for k1 in tree[k].keys():
-				print(k1, tree[k][k1])
-			continue
-		print(k, tree[k])
-
-	#os.makedirs(directory+".tmp/")
+	#se já existir pasta temporária: apaga
+	if os.path.isdir(directory+".tmp/"):
+		shutil.rmtree(directory+".tmp/")
+		
+	tree_before = file_to_tree(directory+".guarda/", "guarda.txt")
 	
+	os.makedirs(directory+".tmp/")
+	shutil.move(directory+".guarda/", directory+".tmp/")	
 
-	#remove(directory+".tmp/")
+	init(method, directory,out, key)
+	tree_now = file_to_tree(directory+".guarda/", "guarda.txt")
+
+	if out != None:
+		file_out = open(out, "w+")
+		tracking_out(directory, file_out, tree_now, tree_before)
+		file_out.close()
+	else:
+		tracking(directory, tree_now, tree_before)
+
+
+
+
+
+
 
 
 def remove(directory):
 	try:		
-		for i in os.listdir(directory):
-		    os.remove(os.path.join(directory, i))
-		os.rmdir(directory) # Now the directory is empty of files	
+		shutil.rmtree(directory+".guarda")
+
 		return True
 	except OSError as error:
 		print(error)

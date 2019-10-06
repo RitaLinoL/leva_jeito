@@ -22,3 +22,13 @@ if os.path.isdir(directory):
 
 for i in t.keys():
 	print(i)
+
+
+
+	for k in tree_before.keys():
+		if type(tree_before[k]) == type(OOBTree()):
+			print("-->")
+			for k1 in tree_before[k].keys():
+				print(k1, tree_before[k][k1])
+			continue
+		print(k, tree_before[k])

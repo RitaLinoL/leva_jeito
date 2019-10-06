@@ -42,8 +42,6 @@ def init_options():
 		if op == '-o':
 			out = arg		
 
-	if out == None:
-		out = "."
 	return method, option, directory, out, key
 
 
