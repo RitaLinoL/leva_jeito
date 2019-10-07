@@ -2,6 +2,7 @@
 
 **Execução : **
 python guarda.py <metodo> <opcao> <pasta> <saída>
+      <br/>
 ― <metodo> : indica o método a ser utilizado ( -hash ou -hmac senha)
 ― <opcao>: indica a ação a ser desempenhada pelo programa
       -i : inicia a guarda da pasta indicada em <pasta>, ou seja, faz a leitura de todos os arquivos da pasta (recursivamente)
