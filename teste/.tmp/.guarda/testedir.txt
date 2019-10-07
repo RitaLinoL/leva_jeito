@@ -1,3 +1,0 @@
-bu.txt	b1b82a5e9a8d9ebb5c6ddd2940031c98fe4002b4
-test3	dir
-teste4	dir

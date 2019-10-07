@@ -13,7 +13,6 @@ def init(method, directory,out, key):
 		if os.path.isdir(path_guarda):
 			shutil.rmtree(path_guarda)
 
-
 		os.makedirs(path_guarda)
 
 		guarda = open(path_guarda +"guarda.txt", "w+")	
@@ -66,8 +65,9 @@ def create_hash_dir(name, directory, method, key, root_guarda):
 
 		if (os.path.isdir(path+i)):
 			dir_tree.update({i:create_hash_dir(i, path, method, key, root_guarda)})
-
 	return dir_tree
+
+
 
 def tree_to_file(name,directory, root_guarda, tree):
 	file = open(root_guarda+name+".txt", "w+")
@@ -81,10 +81,9 @@ def tree_to_file(name,directory, root_guarda, tree):
 			file.write(k+"\tdir\n")
 			tree_to_file(k, directory+k+"/", root_guarda, tree[k])
 	file.close()
-
 def file_to_tree(root_guarda, file):
 	'''
-	Função responsável por a partir de um arquivo cria uma árvore B obedecendo os padrões de arquivos e diretórios
+	Função responsável por, a partir de um arquivo, criar uma árvore B obedecendo os padrões de arquivos e diretórios
 	:param root_guarda : caminho da pasta do programa guarda onde está o arquivo 
 	:param file : arquivo a ser lido
 	'''
@@ -107,13 +106,13 @@ def tracking_out(directory, out, tree_now, tree_before):
 			if (type(tree_now[k]) == type(OOBTree())):
 				tracking_out(directory+k+"/",out,  tree_now[k], tree_before[k] )
 			elif(tree_now[k] != tree_before[k]):
-				out.write("[A] "+ directory+k)
+				out.write("[A] "+ directory+k+"\n")
 		else:
-			out.write("[N] "+ directory+k)
+			out.write("[N] "+ directory+k+"\n")
 
 	for k in tree_before.keys():
 		if not(tree_now.has_key(k)):
-			out.write("[R] "+ directory+k)
+			out.write("[R] "+ directory+k+"\n")
 
 
 def tracking(directory, tree_now, tree_before):
@@ -152,9 +151,7 @@ def track(method, directory,out, key):
 	else:
 		tracking(directory, tree_now, tree_before)
 
-
-
-
+	shutil.rmtree(directory+".tmp/")
 
 
 
@@ -162,7 +159,6 @@ def track(method, directory,out, key):
 def remove(directory):
 	try:		
 		shutil.rmtree(directory+".guarda")
-
 		return True
 	except OSError as error:
 		print(error)

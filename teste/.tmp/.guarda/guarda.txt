@@ -1,2 +1,0 @@
-teste1.txt	712551684698f7b19e5cadd2d976e3837ebd5054
-testedir	dir
